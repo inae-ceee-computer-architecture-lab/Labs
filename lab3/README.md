@@ -23,7 +23,7 @@ This lab focuses on identifying performance bottlenecks using two tools: `perf` 
 
 3. Return to the parent directory:
    ```
-      cd ..
+   cd ..
    ```
 
 - This generates a binary named `matrix` which will be used for performance analysis with `perf` and VTune.
