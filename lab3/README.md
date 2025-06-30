@@ -1,4 +1,4 @@
-# 💻 Lab 3: Computer Architecture Tools – Part II
+# Lab 3: Computer Architecture Tools – Part II
 
 This lab focuses on identifying performance bottlenecks using two tools: `perf` and Intel® VTune™ Profiler. You will compile backend and frontend bottleneck binaries and then analyze them to understand where CPU time is being spent.
 
@@ -7,9 +7,9 @@ This lab focuses on identifying performance bottlenecks using two tools: `perf` 
 
 ---
 
-## 🧩 Task 0: Collecting the Program Binaries
+## Task 0: Collecting the Program Binaries
 
-### 🔹 0.1 Backend Bottleneck Binary (Matrix Multiplication)
+### 0.1 Backend Bottleneck Binary (Matrix Multiplication)
 
 1. Navigate to the backend bottleneck source directory:
    ```
@@ -26,11 +26,11 @@ This lab focuses on identifying performance bottlenecks using two tools: `perf` 
       cd ..
    ```
 
-- ✅ This generates a binary named `matrix` which will be used for performance analysis with `perf` and VTune.
+- This generates a binary named `matrix` which will be used for performance analysis with `perf` and VTune.
 
 ---
 
-### 🔹 0.2 Frontend Bottleneck Binary
+### 0.2 Frontend Bottleneck Binary
 
 1. Navigate to the frontend bottleneck source directory:
    ```
@@ -42,13 +42,13 @@ This lab focuses on identifying performance bottlenecks using two tools: `perf` 
    make
    ```
 
-- ✅ This generates a binary named `fb_b` which will also be used for performance analysis.
+- This generates a binary named `FE_bottleneck` which will also be used for performance analysis.
 
 ---
 
-## 📊 Task 1: Using `perf` Tool
+## Task 1: Using `perf` Tool
 
-### 🔸 1.1 List Available Performance Events
+### 1.1 List Available Performance Events
 
 To view the full list of events supported by your system:
 
@@ -58,7 +58,7 @@ perf list
 
 ---
 
-### 🔸 1.2 Run `perf stat` on a Compiled Binary
+### 1.2 Run `perf stat` on a Compiled Binary
 
 To measure performance statistics:
 
@@ -67,17 +67,17 @@ perf stat -e <event_list> ./binary
 ```
 
 - Replace `<event_list>` with specific hardware/software events (or omit to use default).
-- Replace `./binary` with `./matrix` or `./fb_b` depending on what you're analyzing.
+- Replace `./binary` with `./matrix` or `./FE_bottleneck` depending on what you're analyzing.
 
 ---
 
-## 📈 Task 2: Using Intel® VTune™ Profiler
+## Task 2: Using Intel® VTune™ Profiler
 
 1. Launch Intel® VTune™ Profiler.
 
-2. Choose an analysis type (e.g., **Hotspots**, **Microarchitecture Exploration**, etc.).
+2. Choose an analysis type (e.g., **Performance snapshots**, **Hotspots**, **Microarchitecture Exploration**, etc.).
 
-3. Select the binary (`matrix` or `fb_b`) as the target application.
+3. Select the binary (`matrix` or `FE_bottleneck`) as the target application.
 
 4. Run the analysis.
 
@@ -86,7 +86,7 @@ perf stat -e <event_list> ./binary
 
 ---
 
-## 📂 Directory Structure
+## Directory Structure
 
 ```
 lab3/
@@ -97,14 +97,14 @@ lab3/
 │       └── ...
 ├── frontend_bottleneck/
 │   ├── Makefile
-│   ├── fb_b (generated after build)
+│   ├── FE_bottleneck (generated after build)
 │   └── ...
 └── README.md
 ```
 
 ---
 
-## ✅ Summary
+## Summary
 
 By the end of this lab, you will:
 
