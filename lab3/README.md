@@ -75,9 +75,9 @@ perf stat -e <event_list> ./binary
 
 1. Launch Intel® VTune™ Profiler.
 
-2. Choose an analysis type (e.g., **Performance snapshots**, **Hotspots**, **Microarchitecture Exploration**, etc.).
+2. Select the binary (`matrix` or `FE_bottleneck`) as the target application.
 
-3. Select the binary (`matrix` or `FE_bottleneck`) as the target application.
+3. Choose an analysis type (e.g., **Performance snapshots**, **Hotspots**, **Microarchitecture Exploration**, etc.).
 
 4. Run the analysis.
 
