@@ -69,6 +69,29 @@ perf stat -e <event_list> ./binary
 - Replace `<event_list>` with specific hardware/software events (or omit to use default).
 - Replace `./binary` with `./matrix` or `./FE_bottleneck` depending on what you're analyzing.
 
+Part A: To check number of cycles and instructions 
+
+```
+perf stat -e instructions,cycles ./binary
+```
+
+Part B: To check cache related events
+
+```
+perf stat -e L1-dcache-loads,L1-dcache-stores,L1-icache-loads,L1-icache-load-misses,LLC-loads,LLC-load-misses,LLC-stores,LLC-store-misses ./binary
+```
+
+Part C: To check branch related events
+
+```
+perf stat -e branch-loads,branch-load-misses,branch-instructions,branch-misses ./binary
+```
+
+Part D: To check operating system (OS) related events
+
+```
+perf stat -e context-switches,page-faults ./binary
+```
 ---
 
 ## Task 2: Using Intel® VTune™ Profiler
