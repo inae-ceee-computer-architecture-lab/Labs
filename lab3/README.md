@@ -7,9 +7,9 @@ This lab focuses on identifying performance bottlenecks using two tools: `perf` 
 
 ---
 
-## Task 0: Collecting the Program Binaries
+## Task 0: Collecting the program binaries
 
-### 0.1 Backend Bottleneck Binary (Matrix Multiplication)
+### 0.1 Backend bottleneck binary (Matrix Multiplication)
 
 1. Navigate to the backend bottleneck source directory:
    ```
@@ -30,7 +30,7 @@ This lab focuses on identifying performance bottlenecks using two tools: `perf` 
 
 ---
 
-### 0.2 Frontend Bottleneck Binary
+### 0.2 Frontend bottleneck binary
 
 1. Navigate to the frontend bottleneck source directory:
    ```
@@ -46,9 +46,9 @@ This lab focuses on identifying performance bottlenecks using two tools: `perf` 
 
 ---
 
-## Task 1: Using `perf` Tool
+## Task 1: Using `perf` tool
 
-### 1.1 List Available Performance Events
+### 1.1 List available performance events
 
 To view the full list of events supported by your system:
 
@@ -58,7 +58,7 @@ perf list
 
 ---
 
-### 1.2 Run `perf stat` on a Compiled Binary
+### 1.2 Run `perf stat` on a compiled binary
 
 To measure performance statistics:
 
@@ -69,6 +69,8 @@ perf stat -e <event_list> ./binary
 - Replace `<event_list>` with specific hardware/software events (or omit to use default).
 - Replace `./binary` with `./matrix` or `./FE_bottleneck` depending on what you're analyzing.
 
+### 1.3 Using perf tool for different metrics
+ 
 Part A: To check number of cycles and instructions 
 
 ```
@@ -94,7 +96,7 @@ perf stat -e context-switches,page-faults ./binary
 ```
 ---
 
-## Task 2: Using Intel® VTune™ Profiler
+## Task 2: Using Intel® VTune™ profiler
 
 1. Launch Intel® VTune™ Profiler.
 
