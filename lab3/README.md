@@ -98,6 +98,8 @@ perf stat -e context-switches,page-faults ./binary
 
 ## Task 2: Using Intel® VTune™ profiler
 
+Install Intel VTune using the steps mentioned here: [Link](https://docs.google.com/document/d/1Pi7OD1OJ5wgShVeuhMDqiW5cXbDAiQoiv2JBL6EojAs/edit?usp=sharing)
+
 0. cd into /opt/intel/oneapi.
 
 1. Launch Intel® VTune™ Profiler by typing vtune-gui.
