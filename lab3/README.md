@@ -98,6 +98,8 @@ perf stat -e context-switches,page-faults ./binary
 
 ## Task 2: Using Intel® VTune™ profiler
 
+0. cd into /opt/intel/oneapi
+
 1. Launch Intel® VTune™ Profiler.
 
 2. Select the binary (`matrix` or `FE_bottleneck`) as the target application.
