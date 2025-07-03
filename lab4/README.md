@@ -1,138 +1,128 @@
-# Lab 3: Computer Architecture Tools – Part II
+# Lab 4: Computer Architecture Simulators 
 
-This lab focuses on identifying performance bottlenecks using two tools: `perf` and Intel® VTune™ Profiler. You will compile backend and frontend bottleneck binaries and then analyze them to understand where CPU time is being spent.
+This lab focuses on simulators and the Intel Pin tool. We explore how the ChampSim simulator works, generate traces using the Intel® Pin tool, and then use those traces with ChampSim to analyze and evaluate performance.
 
-- **Backend Bottleneck**: Occurs when the CPU is ready to execute instructions but is stalled waiting for data, typically due to memory latency or limited bandwidth.
-- **Frontend Bottleneck**: Happens when the CPU cannot fetch or decode instructions fast enough, often caused by instruction cache misses or branch mispredictions.
 
 ---
 
-## Task 0: Collecting the program binaries
+## Task 0: Building the Intel Pin Tool
 
-### 0.1 Backend bottleneck binary (Matrix Multiplication)
-
-1. Navigate to the backend bottleneck source directory:
+1. Navigate to the Pin tool source directory:
    ```
-   cd lab3/backend_bottleneck/linux
+   cd lab4/Pin_tool/pin-3.22-98547-g7a303a835-gcc-linux/source/tools
    ```
 
-2. Build the binary:
+2. Build the Pin tool:
    ```
    make
    ```
 
 3. Return to the parent directory:
    ```
-   cd ..
+   cd ../../
    ```
 
-- This generates a binary named `matrix` which will be used for performance analysis with `perf` and VTune.
 
 ---
 
-### 0.2 Frontend bottleneck binary
+### Task 0.1: Check and Set Up Dependencies
 
-1. Navigate to the frontend bottleneck source directory:
+1. Set up the required environment variables to ensure the Intel Pin tool runs correctly: 
    ```
-   cd lab3/frontend_bottleneck/
+   export LD_LIBRARY_PATH=/intel64/lib:/opt/intel/oneapi/tcm/1.3/lib:/opt/intel/oneapi/umf/0.10/lib:/opt/intel/oneapi/tbb/2022.1/env/../lib/intel64/gcc4.8:/opt/intel/oneapi/pti/0.12/lib:/opt/intel/oneapi/mpi/2021.15/opt/mpi/libfabric/lib:/opt/intel/oneapi/mpi/2021.15/lib:/opt/intel/oneapi/mkl/2025.1/lib:/opt/intel/oneapi/ippcp/2025.1/lib/:/opt/intel/oneapi/ipp/2022.1/lib:/opt/intel/oneapi/dnnl/2025.1/lib:/opt/intel/oneapi/debugger/2025.1/opt/debugger/lib:/opt/intel/oneapi/dal/2025.5/lib:/opt/intel/oneapi/compiler/2025.1/opt/compiler/lib:/opt/intel/oneapi/compiler/2025.1/lib:/opt/intel/oneapi/ccl/2021.15/lib/
+
    ```
-
-2. Build the binary:
-   ```
-   make
-   ```
-
-- This generates a binary named `FE_bottleneck` which will also be used for performance analysis.
-
 ---
 
-## Task 1: Using `perf` tool
+## Task 1: generate trace file using `Intel Pin tool` 
 
-### 1.1 List available performance events
+0. How to use Intel Pin tool
 
-To view the full list of events supported by your system:
+### Tracer Options
+
+The tracer has three configurable options:
+```
+- `-o`  
+  - Specifies the output file for your trace.  
+```
+  - **Default**: `default_trace.champsim`
 
 ```
-perf list
+- `-s <number>`  
+  - Specifies the number of instructions to **skip** in the program before tracing begins.  
 ```
-
----
-
-### 1.2 Run `perf stat` on a compiled binary
-
-To measure performance statistics:
+  - **Default**: `0`
 
 ```
-perf stat -e <event_list> ./binary
+- `-t <number>`  
+  - Specifies the number of instructions to **trace**, after the `-s` instructions have been skipped.  
 ```
+  - **Default**: `1,000,000`
 
-- Replace `<event_list>` with specific hardware/software events (or omit to use default).
-- Replace `./binary` with `./matrix` or `./FE_bottleneck` depending on what you're analyzing.
+### Example
 
-### 1.3 Using perf tool for different metrics
- 
-Part A: To check number of cycles and instructions 
+To trace **200,000 instructions** of the program `ls`, **after skipping the first 100,000 instructions**, use the following command:
 
-```
-perf stat -e instructions,cycles ./binary
-```
-
-Part B: To check cache related events
-
-```
-perf stat -e L1-dcache-loads,L1-dcache-stores,L1-icache-loads,L1-icache-load-misses,LLC-loads,LLC-load-misses,LLC-stores,LLC-store-misses ./binary
-```
-
-Part C: To check branch related events
-
-```
-perf stat -e branch-loads,branch-load-misses,branch-instructions,branch-misses ./binary
-```
-
-Part D: To check operating system (OS) related events
-
-```
-perf stat -e context-switches,page-faults ./binary
+```bash
+pin -t obj/champsim_tracer.so -o traces/ls_trace.champsim -s 100000 -t 200000 -- ls
 ```
 ---
+### Steps to generate trace
 
-## Task 2: Using Intel® VTune™ profiler
-
-1. Launch Intel® VTune™ Profiler.
-
-2. Select the binary (`matrix` or `FE_bottleneck`) as the target application.
-
-3. Choose an analysis type (e.g., **Performance snapshots**, **Hotspots**, **Microarchitecture Exploration**, etc.).
-
-4. Run the analysis.
-
-5. Explore the results to identify CPU, memory, or frontend/backend pipeline bottlenecks.
-
-
----
-
-## Directory Structure
-
+1. Generate trace 
 ```
-lab3/
-├── backend_bottleneck/
-│   └── linux/
-│       ├── Makefile
-│       ├── matrix (generated after build)
-│       └── ...
-├── frontend_bottleneck/
-│   ├── Makefile
-│   ├── FE_bottleneck (generated after build)
-│   └── ...
-└── README.md
+./pin -t ../obj-intel64/champsim_tracer.so -o ../../ChampSim/traces/demo.champsim -s 1000 -t 1000000 -- ../FE_bottleneck
 ```
 
----
+This will generate the trace file for the program named FE_bottleneck
 
-## Summary
+2. navigate to trace file 
+```
+cd ../../Champsim/traces
+```
+3. Compress trace file
+```
+xz demo.champsim
+```
 
-By the end of this lab, you will:
 
-- Use `perf` to capture basic performance metrics.
-- Use Intel® VTune™ to perform in-depth profiling and identify bottlenecks.
 
+## Task 2 ChampSim
+Navigate to ChampSim
+```
+cd ../
+```
+### Compile
+
+ChampSim takes eighteen parameters: Branch predictor, L1I prefertcher L1D prefetcher, L2C prefetcher, LLC prefetcher, ITLB prefetcher, DTLB prefetcher, STLB prefetcher,BTB replacement policy, L1I replacement policy, L1D replacement policy, L2C replacement policy, LLC replacement policy, ITLB replacement policy, DTLBreplacement policy, STLB replacement policy, the number of cores and tail name. 
+For example, `./build_champsim.sh bimodal no no no no no no no lru lru lru srrip drrip lru lru lru 1 no` builds a single-core processor with bimodal branch predictor, no L1/L2/LLC data prefetchers,no ITLB/DTLB/STLB prerfetchers and the baseline LRU replacement policy for the L1/L2/LLC and ITLB/DTLB/STLB.
+```
+$ ./build_champsim.sh bimodal no no no no no no no lru lru lru srrip drrip lru lru lru 1 no
+```
+```
+$ ./build_champsim.sh ./build_champsim.sh ${branch_pred} ${l1i_pref} ${l1d_pref}
+    ${l2c_pref} ${llc_pref} ${itlb_pref} ${dtlb_pref} ${stlb_pref} ${btb_repl}
+    ${l1i_repl} ${l1d_repl} ${l2c_repl} ${llc_repl} ${itlb_repl} ${dtlb_repl}
+    ${stlb_repl} ${num_core} ${tail_name}
+
+```
+### Run simulation
+
+Execute `Binary` with proper input arguments.
+
+
+```
+./bin/{Binary} -warmup_instructions {N_WARM} -simulation_instructions {N_SIM} -traces {TRACE} > {OUTPUT}
+
+
+${BINARY}: ChampSim binary compiled by "build_champsim.sh" (bimodal-no-no-lru-1core)
+${N_WARM}: number of instructions for warmup (25 million)
+${N_SIM}:  number of instructinos for detailed simulation (25 million)
+${TRACE}: trace name with its localtion
+${OUTPUT}: output file
+```
+## Additional Resources
+
+- [ChampSim](https://github.com/ChampSim)
+- [Intel Pin tool](https://www.intel.com/content/www/us/en/developer/articles/tool/pin-a-dynamic-binary-instrumentation-tool.html)
+- [SPEC Benchmarks](https://www.spec.org/products/)
