@@ -12,5 +12,5 @@ Lab 3:
 >Presentation: [Slides](https://docs.google.com/presentation/d/1ObKBSZG4HNyqqVND5KQd0J0eX3vXXj9MouHZW7_4j64/edit?usp=sharing)
 
 Lab 4:
->Presentation: [Slides](https://docs.google.com/presentation/d/1asbelibXN-sN_UNbhiaYEOom5zcVJF0XCAWMxHvsxkU/edit?slide=id.g369e7230bd9_0_58#slide=id.g369e7230bd9_0_58)
+>Presentation: [Slides](https://iitbacin-my.sharepoint.com/:p:/g/personal/sweta_cse_iitb_ac_in/EciyiXoRfcdKrn0b55VHQKsBQIB_ruYTjHR-QhkOJL71Mg)
  
