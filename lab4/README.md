@@ -97,7 +97,7 @@ cd ../
 ChampSim takes eighteen parameters: Branch predictor, L1I prefertcher L1D prefetcher, L2C prefetcher, LLC prefetcher, ITLB prefetcher, DTLB prefetcher, STLB prefetcher,BTB replacement policy, L1I replacement policy, L1D replacement policy, L2C replacement policy, LLC replacement policy, ITLB replacement policy, DTLBreplacement policy, STLB replacement policy, the number of cores and tail name. 
 For example, `./build_champsim.sh bimodal no no no no no no no lru lru lru srrip drrip lru lru lru 1 no` builds a single-core processor with bimodal branch predictor, no L1/L2/LLC data prefetchers,no ITLB/DTLB/STLB prerfetchers and the baseline LRU replacement policy for the L1/L2/LLC and ITLB/DTLB/STLB.
 ```
-$ ./build_champsim.sh bimodal no no no no no no no lru lru lru srrip drrip lru lru lru 1 no
+$ ./build_champsim.sh bimodal no no no no no no no lru lru lru lru lru lru lru lru 1 no
 ```
 ```
 $ ./build_champsim.sh ./build_champsim.sh ${branch_pred} ${l1i_pref} ${l1d_pref}
